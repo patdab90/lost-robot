@@ -26,7 +26,7 @@ public class LostRobotWindow extends JFrame {
 			final Agent agent) throws HeadlessException {
 		super("Zagubiony robot");
 		setLocationByPlatform(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		this.enviroment = env;
 		this.agent = agent;

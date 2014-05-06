@@ -20,7 +20,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		final Environment env = new FileEnviroment("");
+		final Environment env = new FileEnviroment("env1");
 		final Agent agent = new BasicRobot(400, 400);
 		final EnvironmentCanvas canvas = new EnvironmentCanvas(env);
 		canvas.addDrawable(agent);

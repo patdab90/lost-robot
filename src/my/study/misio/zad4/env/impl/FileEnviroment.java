@@ -1,7 +1,9 @@
 package my.study.misio.zad4.env.impl;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
@@ -15,7 +17,7 @@ import my.study.misio.zad4.env.Environment;
 
 public class FileEnviroment extends Environment {
 
-	private List<Shape> shapes = new LinkedList<>();
+	
 
 	public FileEnviroment(String fileName) {
 		super();
@@ -44,7 +46,13 @@ public class FileEnviroment extends Environment {
 					int y2 = Integer.parseInt(s[4]);
 
 					shapes.add(new Line2D.Double(x1, y1, x2, y2));
+				} else if (s[0].equals("Circle")) {
+					int x = Integer.parseInt(s[1]);
+					int y = Integer.parseInt(s[2]);
+					int r = Integer.parseInt(s[3]);
+					shapes.add(new Ellipse2D.Double(x, y, r, r));
 				}
+				
 			}
 		} catch (FileNotFoundException e) {
 			System.out.print("File \"" + fileName + "\" not found.");
@@ -59,12 +67,17 @@ public class FileEnviroment extends Environment {
 			} catch (IOException e) {
 				// ignore
 			}
+			
 		}
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-
+		g.setColor(Color.RED);
+		for (Shape s : shapes) {
+			g.draw(s);
+			g.fill(s);
+		}
 	}
 
 }
