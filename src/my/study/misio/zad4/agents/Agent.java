@@ -1,20 +1,32 @@
 package my.study.misio.zad4.agents;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.List;
 
-import my.study.misio.zad4.agents.sensors.Sensor;
 import my.study.misio.zad4.gui.IDrawable;
 
 public abstract class Agent implements IDrawable {
 
 	protected Point2D position;
-	protected List<Sensor> sensors = new LinkedList<>();
+
 	protected int v = 10;
+
+	protected List<Sensor> sensors = new LinkedList<>();
 
 	public Agent() {
 
+	}
+
+	public void addSensor(Sensor sensor) {
+		sensors.add(sensor);
+	}
+
+	public void draw(Graphics2D g) {
+		for (Sensor s : sensors) {
+			s.draw(g);
+		}
 	}
 
 	public Point2D getPosition() {
@@ -32,7 +44,8 @@ public abstract class Agent implements IDrawable {
 			position.setLocation(position.getX() + v, position.getY());
 		}
 		for (Sensor s : sensors) {
-			s.update();
+			s.updatePosition(position, 0);
+			s.sens();
 		}
 	}
 }

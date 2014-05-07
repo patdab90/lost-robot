@@ -22,7 +22,7 @@ public class LostRobotWindow extends JFrame {
 	private EnvironmentCanvas canvas;
 	private Agent agent;
 
-	public LostRobotWindow(EnvironmentCanvas canvas, Environment env,
+	public LostRobotWindow(final EnvironmentCanvas canvas, final Environment env,
 			final Agent agent) throws HeadlessException {
 		super("Zagubiony robot");
 		setLocationByPlatform(true);
@@ -57,31 +57,32 @@ public class LostRobotWindow extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent event) {
-				if ( event.getKeyCode() == KeyEvent.VK_DOWN) {
-					pressedKeys.add(event.getKeyCode());
-				} 
-				if ( event.getKeyCode() == KeyEvent.VK_UP) {
+				if (event.getKeyCode() == KeyEvent.VK_DOWN) {
 					pressedKeys.add(event.getKeyCode());
 				}
-				if ( event.getKeyCode() == KeyEvent.VK_LEFT) {
+				if (event.getKeyCode() == KeyEvent.VK_UP) {
 					pressedKeys.add(event.getKeyCode());
 				}
-				if ( event.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 					pressedKeys.add(event.getKeyCode());
 				}
-				
-				if(pressedKeys.contains(KeyEvent.VK_DOWN)){
+				if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+					pressedKeys.add(event.getKeyCode());
+				}
+
+				if (pressedKeys.contains(KeyEvent.VK_DOWN)) {
 					agent.move(Action.DOWN);
 				}
-				if(pressedKeys.contains(KeyEvent.VK_UP)){
+				if (pressedKeys.contains(KeyEvent.VK_UP)) {
 					agent.move(Action.UP);
 				}
-				if(pressedKeys.contains(KeyEvent.VK_RIGHT)){
+				if (pressedKeys.contains(KeyEvent.VK_RIGHT)) {
 					agent.move(Action.RIGHT);
 				}
-				if(pressedKeys.contains(KeyEvent.VK_LEFT)){
+				if (pressedKeys.contains(KeyEvent.VK_LEFT)) {
 					agent.move(Action.LEFT);
 				}
+				canvas.repaint();
 			}
 		});
 	}

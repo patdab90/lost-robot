@@ -13,8 +13,10 @@ public class BasicRobot extends Agent {
 		this.position = new Point2D.Double(posX, posY);
 	}
 
+	
 	@Override
 	public void draw(Graphics2D g) {
+		super.draw(g);
 		g.setColor(Color.ORANGE);
 		g.fillOval((int) position.getX(), (int) position.getY(), 15, 15);
 	}

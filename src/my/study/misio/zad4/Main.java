@@ -3,7 +3,11 @@
  */
 package my.study.misio.zad4;
 
+import java.awt.geom.Point2D;
+
 import my.study.misio.zad4.agents.Agent;
+import my.study.misio.zad4.agents.DistanceSensor;
+import my.study.misio.zad4.agents.Sensor;
 import my.study.misio.zad4.agents.impl.BasicRobot;
 import my.study.misio.zad4.env.Environment;
 import my.study.misio.zad4.env.impl.FileEnviroment;
@@ -23,6 +27,20 @@ public class Main {
 		final Environment env = new FileEnviroment("env1");
 		final Agent agent = new BasicRobot(400, 400);
 		final EnvironmentCanvas canvas = new EnvironmentCanvas(env);
+		final Sensor s1 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(0, 400));
+		final Sensor s2 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(400, 0));
+		final Sensor s3 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(env.getWidth(), 400));
+		final Sensor s4 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(400, env.getHeight()));
+		
+		agent.addSensor(s1);
+		agent.addSensor(s2);
+		agent.addSensor(s3);
+		agent.addSensor(s4);
+		
 		canvas.addDrawable(agent);
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -31,15 +49,14 @@ public class Main {
 			}
 		});
 
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				while (true) {
-					canvas.repaint();
-				}
-			}
-		}).start();
+//		new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				while (true) {
+//					canvas.repaint();
+//				}
+//			}
+//		}).start();
 
 	}
 }
