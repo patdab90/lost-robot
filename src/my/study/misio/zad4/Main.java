@@ -43,7 +43,7 @@ public class Main {
 		agent.addSensor(s3);
 		agent.addSensor(s4);
 
-		final Filter filter = new ParticipleFilter(env);
+		final ParticipleFilter filter = new ParticipleFilter(env);
 
 		final Sensor s5 = new DistanceSensor(env, new Point2D.Double(400, 400),
 				new Point2D.Double(0, 400));
@@ -58,7 +58,9 @@ public class Main {
 		filter.addSensor(s6);
 		filter.addSensor(s7);
 		filter.addSensor(s8);
-
+		
+		filter.test();
+		
 		canvas.addDrawable(filter);
 		canvas.addDrawable(agent);
 		
