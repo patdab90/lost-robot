@@ -6,11 +6,13 @@ package my.study.misio.zad4;
 import java.awt.geom.Point2D;
 
 import my.study.misio.zad4.agents.Agent;
+import my.study.misio.zad4.agents.BasicRobot;
 import my.study.misio.zad4.agents.DistanceSensor;
 import my.study.misio.zad4.agents.Sensor;
-import my.study.misio.zad4.agents.impl.BasicRobot;
 import my.study.misio.zad4.env.Environment;
 import my.study.misio.zad4.env.impl.FileEnviroment;
+import my.study.misio.zad4.filters.Filter;
+import my.study.misio.zad4.filters.ParticipleFilter;
 import my.study.misio.zad4.gui.EnvironmentCanvas;
 import my.study.misio.zad4.gui.LostRobotWindow;
 
@@ -35,13 +37,31 @@ public class Main {
 				new Point2D.Double(env.getWidth(), 400));
 		final Sensor s4 = new DistanceSensor(env, new Point2D.Double(400, 400),
 				new Point2D.Double(400, env.getHeight()));
-		
+
 		agent.addSensor(s1);
 		agent.addSensor(s2);
 		agent.addSensor(s3);
 		agent.addSensor(s4);
-		
+
+		final Filter filter = new ParticipleFilter(env);
+
+		final Sensor s5 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(0, 400));
+		final Sensor s6 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(400, 0));
+		final Sensor s7 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(env.getWidth(), 400));
+		final Sensor s8 = new DistanceSensor(env, new Point2D.Double(400, 400),
+				new Point2D.Double(400, env.getHeight()));
+
+		filter.addSensor(s5);
+		filter.addSensor(s6);
+		filter.addSensor(s7);
+		filter.addSensor(s8);
+
+		canvas.addDrawable(filter);
 		canvas.addDrawable(agent);
+		
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -49,14 +69,14 @@ public class Main {
 			}
 		});
 
-//		new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				while (true) {
-//					canvas.repaint();
-//				}
-//			}
-//		}).start();
+		// new Thread(new Runnable() {
+		// @Override
+		// public void run() {
+		// while (true) {
+		// canvas.repaint();
+		// }
+		// }
+		// }).start();
 
 	}
 }

@@ -32,7 +32,6 @@ public class DistanceSensor extends Sensor {
 	@Override
 	public void updatePosition(Point2D newPos, double rotation) {
 		// rotation nie jest u¿ywane narazie
-		System.out.println(location + " Before: " + direction);
 		if (location.getX() == direction.getX()) { // pion
 			location = (Point2D) newPos.clone();
 			direction.setLocation(location.getX(), direction.getY());
@@ -41,7 +40,6 @@ public class DistanceSensor extends Sensor {
 			direction.setLocation(direction.getX(), location.getY());
 		}
 		endPoint = direction;
-		System.out.println(location + " After: " + direction);
 	}
 
 	@Override
@@ -76,8 +74,9 @@ public class DistanceSensor extends Sensor {
 					}
 				}
 			} else {
-				Point2D[] pl = Geometric.getIntersectionPoint(new Line2D.Double(
-						location, direction), (Rectangle2D) s);
+				Point2D[] pl = Geometric
+						.getIntersectionPoint(new Line2D.Double(location,
+								direction), (Rectangle2D) s);
 				for (Point2D p2 : pl) {
 					if (p2 != null) {
 						double d = p2.distance(location);

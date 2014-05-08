@@ -7,7 +7,7 @@ import java.util.List;
 
 import my.study.misio.zad4.gui.IDrawable;
 
-public abstract class Agent implements IDrawable {
+public abstract class Agent implements IDrawable, ISensorOwner {
 
 	protected Point2D position;
 
@@ -19,10 +19,12 @@ public abstract class Agent implements IDrawable {
 
 	}
 
+	@Override
 	public void addSensor(Sensor sensor) {
 		sensors.add(sensor);
 	}
 
+	@Override
 	public void draw(Graphics2D g) {
 		for (Sensor s : sensors) {
 			s.draw(g);

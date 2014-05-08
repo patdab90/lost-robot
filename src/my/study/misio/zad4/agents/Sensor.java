@@ -1,8 +1,6 @@
 package my.study.misio.zad4.agents;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import my.study.misio.zad4.env.Environment;
 import my.study.misio.zad4.gui.IDrawable;
