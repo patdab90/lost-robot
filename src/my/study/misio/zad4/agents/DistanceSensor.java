@@ -10,18 +10,21 @@ import java.util.Iterator;
 import java.util.List;
 
 import my.study.misio.zad4.Geometric;
+import my.study.misio.zad4.RandomSingleton;
 import my.study.misio.zad4.env.Environment;
 
 public class DistanceSensor extends Sensor {
 
 	private Point2D direction;
 	private Point2D endPoint;
+	private boolean horizontal = false;
 	boolean hasMinDistance = false; // dla optymalizacji
 
 	public DistanceSensor(Environment e, Point2D a, Point2D direction) {
 		super(e, a);
 		this.direction = (Point2D) direction.clone();
 		endPoint = (Point2D) direction.clone();
+		horizontal = location.getX() == direction.getX();
 	}
 
 	@Override
@@ -33,7 +36,7 @@ public class DistanceSensor extends Sensor {
 	@Override
 	public void updatePosition(Point2D newPos, double rotation) {
 		// rotation nie jest u¿ywane narazie
-		if (location.getX() == direction.getX()) { // pion
+		if (horizontal) { // pion
 			location = (Point2D) newPos.clone();
 			direction.setLocation(location.getX(), direction.getY());
 		} else if (location.getY() == direction.getY()) { // poziom
@@ -41,6 +44,11 @@ public class DistanceSensor extends Sensor {
 			direction.setLocation(direction.getX(), location.getY());
 		}
 		endPoint = direction;
+	}
+
+	private double getSensorError() {
+		return (RandomSingleton.getInstance().nextInt(2) - 1)
+				* RandomSingleton.getInstance().nextGaussian() * 10;
 	}
 
 	@Override
@@ -65,7 +73,7 @@ public class DistanceSensor extends Sensor {
 			double minDistance, Shape shape) {
 		if (shape instanceof Line2D) {
 			minDistance = getMinDistanceForLine(sensorLine, minDistance,
-					(Line2D) shape);
+					((Line2D) shape));
 		} else {
 			minDistance = getMinDistanceForRect(sensorLine, minDistance,
 					shape.getBounds2D());
@@ -79,6 +87,11 @@ public class DistanceSensor extends Sensor {
 		if (shape.intersectsLine(sensorLine))
 			if ((intersecPoint = Geometric.getIntersectionPoint(sensorLine,
 					shape)) != null) {
+				// doliczamy b³ad
+				intersecPoint.setLocation(intersecPoint.getX()
+						+ (horizontal ? 0 : getSensorError()),
+						intersecPoint.getY()
+								+ (horizontal ? getSensorError() : 0));
 				double d = location.distance(intersecPoint);
 				minDistance = minDistance(minDistance, intersecPoint, d);
 			}
@@ -91,6 +104,12 @@ public class DistanceSensor extends Sensor {
 		if (shape.intersectsLine(sensorLine)) {
 			intersecPoints = Geometric.getIntersectionPoint(sensorLine, shape);
 			for (Point2D point2d : intersecPoints) {
+				if (point2d == null)
+					continue;
+				// doliczanie b³edu
+				point2d.setLocation(point2d.getX()
+						+ (horizontal ? 0 : getSensorError()), point2d.getY()
+						+ (horizontal ? getSensorError() : 0));
 				double d = location.distance(point2d);
 				minDistance = minDistance(minDistance, point2d, d);
 			}
