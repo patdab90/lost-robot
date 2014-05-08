@@ -66,6 +66,9 @@ public class DistanceSensor extends Sensor {
 		if (shape instanceof Line2D) {
 			minDistance = getMinDistanceForLine(sensorLine, minDistance,
 					(Line2D) shape);
+		} else {
+			minDistance = getMinDistanceForRect(sensorLine, minDistance,
+					shape.getBounds2D());
 		}
 		return minDistance;
 	}
@@ -79,6 +82,19 @@ public class DistanceSensor extends Sensor {
 				double d = location.distance(intersecPoint);
 				minDistance = minDistance(minDistance, intersecPoint, d);
 			}
+		return minDistance;
+	}
+
+	private double getMinDistanceForRect(final Line2D sensorLine,
+			double minDistance, Rectangle2D shape) {
+		Point2D[] intersecPoints = null;
+		if (shape.intersectsLine(sensorLine)) {
+			intersecPoints = Geometric.getIntersectionPoint(sensorLine, shape);
+			for (Point2D point2d : intersecPoints) {
+				double d = location.distance(point2d);
+				minDistance = minDistance(minDistance, point2d, d);
+			}
+		}
 		return minDistance;
 	}
 
