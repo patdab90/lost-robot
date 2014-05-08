@@ -59,7 +59,7 @@ public class Main {
 		filter.addSensor(s7);
 		filter.addSensor(s8);
 		
-		filter.test();
+		//filter.test();
 		
 		canvas.addDrawable(filter);
 		canvas.addDrawable(agent);

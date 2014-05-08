@@ -16,6 +16,7 @@ public class DistanceSensor extends Sensor {
 
 	private Point2D direction;
 	private Point2D endPoint;
+	boolean hasMinDistance = false; // dla optymalizacji
 
 	public DistanceSensor(Environment e, Point2D a, Point2D direction) {
 		super(e, a);
@@ -44,55 +45,50 @@ public class DistanceSensor extends Sensor {
 
 	@Override
 	public double sens() {
+		final Line2D.Double sensorLine = new Line2D.Double(location, direction);
+		Iterator<List<Shape>> it = env.iterator(sensorLine);
+		endPoint = (Point2D) direction.clone();
+		double minDistance = location.distance(direction);
+		hasMinDistance = false;
 
-		Iterator<List<Shape>> it = env.iterator(new Line2D.Double(location,
-				direction));
-		List<Shape> shapes = null;// env.getNearestObstacleOnLine(new
-									// Line2D.Double(
-		// location, direction));
-		if (!it.hasNext()) {
-			endPoint = (Point2D) direction.clone();
-			return -1.0;
-		}
-		shapes = it.next();
-
-		double distance = 100000000.0;
-		Point2D p = null;
-		for (Shape s : shapes) {
-			if (s instanceof Line2D) {
-				if (((Line2D) s).intersectsLine(new Line2D.Double(location,
-						direction))) {
-
-					p = Geometric.getIntersectionPoint(new Line2D.Double(
-							location, direction), (Line2D) s);
-					if (p != null) {
-						double d = p.distance(location);
-						if (d < distance) {
-							endPoint = p;
-							distance = d;
-						}
-					}
-				}
-			} else {
-				Point2D[] pl = Geometric
-						.getIntersectionPoint(new Line2D.Double(location,
-								direction), (Rectangle2D) s);
-				for (Point2D p2 : pl) {
-					if (p2 != null) {
-						double d = p2.distance(location);
-						if (d < distance) {
-							endPoint = p2;
-							p = p2;
-							distance = d;
-						}
-					}
-				}
+		for (; it.hasNext() && !hasMinDistance;) {
+			List<Shape> shapes = it.next();
+			for (Shape shape : shapes) {
+				minDistance = getMinDistanceForShape(sensorLine, minDistance,
+						shape);
 			}
 		}
-		if (p == null) {
-			endPoint = (Point2D) direction.clone();
-			return -1.0;
+		return minDistance;
+	}
+
+	private double getMinDistanceForShape(final Line2D sensorLine,
+			double minDistance, Shape shape) {
+		if (shape instanceof Line2D) {
+			minDistance = getMinDistanceForLine(sensorLine, minDistance,
+					(Line2D) shape);
 		}
-		return distance;
+		return minDistance;
+	}
+
+	private double getMinDistanceForLine(final Line2D sensorLine,
+			double minDistance, Line2D shape) {
+		Point2D intersecPoint = null;
+		if (shape.intersectsLine(sensorLine))
+			if ((intersecPoint = Geometric.getIntersectionPoint(sensorLine,
+					shape)) != null) {
+				double d = location.distance(intersecPoint);
+				minDistance = minDistance(minDistance, intersecPoint, d);
+			}
+		return minDistance;
+	}
+
+	private double minDistance(double minDistance, Point2D intersecPoint,
+			double d) {
+		if (d < minDistance) {
+			endPoint = intersecPoint;
+			minDistance = d;
+			hasMinDistance = true;
+		}
+		return minDistance;
 	}
 }
