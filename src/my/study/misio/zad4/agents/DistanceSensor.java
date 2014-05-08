@@ -6,8 +6,10 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Iterator;
 import java.util.List;
 
+import my.study.misio.zad4.Geometric;
 import my.study.misio.zad4.env.Environment;
 
 public class DistanceSensor extends Sensor {
@@ -44,12 +46,18 @@ public class DistanceSensor extends Sensor {
 
 	@Override
 	public double sens() {
-		List<Shape> shapes = env.getNearestObstacleOnLine(new Line2D.Double(
-				location, direction));
-		if (shapes == null) {
+
+		Iterator<List<Shape>> it = env.iterator(new Line2D.Double(location,
+				direction));
+		List<Shape> shapes = null;// env.getNearestObstacleOnLine(new
+									// Line2D.Double(
+		// location, direction));
+		if (!it.hasNext()) {
 			endPoint = (Point2D) direction.clone();
 			return -1.0;
 		}
+		shapes = it.next();
+
 		double distance = 100000000.0;
 		Point2D p = null;
 		for (Shape s : shapes) {
@@ -57,8 +65,8 @@ public class DistanceSensor extends Sensor {
 				if (((Line2D) s).intersectsLine(new Line2D.Double(location,
 						direction))) {
 
-					p = this.getIntersectionPoint(new Line2D.Double(location,
-							direction), (Line2D) s);
+					p = Geometric.getIntersectionPoint(new Line2D.Double(
+							location, direction), (Line2D) s);
 					if (p != null) {
 						double d = p.distance(location);
 						if (d < distance) {
@@ -68,7 +76,7 @@ public class DistanceSensor extends Sensor {
 					}
 				}
 			} else {
-				Point2D[] pl = this.getIntersectionPoint(new Line2D.Double(
+				Point2D[] pl = Geometric.getIntersectionPoint(new Line2D.Double(
 						location, direction), (Rectangle2D) s);
 				for (Point2D p2 : pl) {
 					if (p2 != null) {
