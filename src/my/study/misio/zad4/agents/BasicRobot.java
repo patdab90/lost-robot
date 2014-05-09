@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
+import my.study.misio.zad4.filters.Filter;
+
 public class BasicRobot extends Agent {
 
-	public BasicRobot(int posX, int posY) {
-		super();
+	public BasicRobot(Filter filter, int posX, int posY) {
+		super(filter);
 		this.position = new Point2D.Double(posX, posY);
 	}
 

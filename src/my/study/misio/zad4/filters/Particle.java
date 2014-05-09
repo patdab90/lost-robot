@@ -2,7 +2,7 @@ package my.study.misio.zad4.filters;
 
 import java.awt.geom.Point2D;
 
-public class Particle {
+public class Particle implements Comparable<Particle> {
 	private Point2D position;
 	private double weight;
 	
@@ -25,5 +25,14 @@ public class Particle {
 
 	public void setWeight(double weight) {
 		this.weight = weight;
+	}
+
+	@Override
+	public int compareTo(Particle o) {
+		if(this.weight > o.weight)
+			return -1;
+		else if(this.weight < o.weight)
+			return 1;
+		return 0;
 	}
 }
