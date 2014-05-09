@@ -8,23 +8,21 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
+import my.study.misio.zad4.RandomSingleton;
 import my.study.misio.zad4.env.Environment;
 
 public class ParticipleFilter extends Filter {
 	private List<Particle> particles = new LinkedList<>();
 	private	int pNum;
 	private int resampleRandomVar;
-	private Random rGen;
 	
 	public ParticipleFilter(Environment env) {
 		super(env);
 		pNum = 1000;
 		resampleRandomVar = 5;
-		rGen = new Random();
 		for(int i=0; i<pNum; i++){
-			particles.add(new Particle(new Point(rGen.nextInt(env.getWidth()), rGen.nextInt(env.getHeight()))));
+			particles.add(new Particle(new Point(RandomSingleton.getInstance().nextInt(env.getWidth()), RandomSingleton.getInstance().nextInt(env.getHeight()))));
 		}
 	}
 	
@@ -68,7 +66,6 @@ public class ParticipleFilter extends Filter {
 			}
 			currParticleNum++;
 		}
-		System.out.println(newParticles.size());
 		particles = newParticles;
 		/*for(int i=0; i<pNum; i++){
 			System.out.println("Cz¹steczka: " + particles.get(i).getPosition().toString() + "Waga: " + particles.get(i).getWeight());
@@ -76,13 +73,13 @@ public class ParticipleFilter extends Filter {
 	}
 	
 	private Particle generateRandomParticle(Point2D p, int randomAttr){
-		int newX = (int) p.getX()+rGen.nextInt(randomAttr*2)-randomAttr;
+		int newX = (int) p.getX()+RandomSingleton.getInstance().nextInt(randomAttr*2)-randomAttr;
 		if(newX < 0)
 			newX = 0;
 		else if(newX >= env.getWidth())
 			newX = env.getWidth()-1;
 		
-		int newY = (int) p.getY()+rGen.nextInt(randomAttr*2)-randomAttr;
+		int newY = (int) p.getY()+RandomSingleton.getInstance().nextInt(randomAttr*2)-randomAttr;
 		if(newY < 0)
 			newY = 0;
 		else if(newY >= env.getHeight())

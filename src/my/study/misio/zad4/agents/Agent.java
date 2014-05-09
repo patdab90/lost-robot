@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import my.study.misio.zad4.RandomSingleton;
 import my.study.misio.zad4.filters.Filter;
 import my.study.misio.zad4.gui.IDrawable;
 
@@ -39,7 +40,7 @@ public abstract class Agent implements IDrawable, ISensorOwner {
 	public void move(Action direction) {
 		position.setLocation(position.getX() + direction.getCoords().getX()*v, position.getY() + direction.getCoords().getY()*v);
 		
-		filter.moveParticles(direction.getCoords().getX()*v, direction.getCoords().getY()*v);
+		filter.moveParticles(direction.getCoords().getX()*v + RandomSingleton.getInstance().nextInt(v)-v/2, direction.getCoords().getY()*v + RandomSingleton.getInstance().nextInt(v)-v/2);
 		
 		List<Double> sResult = new LinkedList<>();
 		for (Sensor s : sensors) {
