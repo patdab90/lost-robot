@@ -27,7 +27,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		final Environment env = new FileEnviroment("env1");
-		final Agent agent = new BasicRobot(400, 400);
+		
 		final EnvironmentCanvas canvas = new EnvironmentCanvas(env);
 		final Sensor s1 = new DistanceSensor(env, new Point2D.Double(400, 400),
 				new Point2D.Double(0, 400));
@@ -37,14 +37,14 @@ public class Main {
 				new Point2D.Double(env.getWidth(), 400));
 		final Sensor s4 = new DistanceSensor(env, new Point2D.Double(400, 400),
 				new Point2D.Double(400, env.getHeight()));
-
+		
+		final ParticipleFilter filter = new ParticipleFilter(env);
+		final Agent agent = new BasicRobot(filter, 400, 400);
 		agent.addSensor(s1);
 		agent.addSensor(s2);
 		agent.addSensor(s3);
 		agent.addSensor(s4);
-
-		final ParticipleFilter filter = new ParticipleFilter(env);
-
+		
 		final Sensor s5 = new DistanceSensor(env, new Point2D.Double(400, 400),
 				new Point2D.Double(0, 400));
 		final Sensor s6 = new DistanceSensor(env, new Point2D.Double(400, 400),

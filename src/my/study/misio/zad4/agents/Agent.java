@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import my.study.misio.zad4.filters.Filter;
 import my.study.misio.zad4.gui.IDrawable;
 
 public abstract class Agent implements IDrawable, ISensorOwner {
@@ -12,11 +13,11 @@ public abstract class Agent implements IDrawable, ISensorOwner {
 	protected Point2D position;
 
 	protected int v = 10;
-
+	protected Filter filter;
 	protected List<Sensor> sensors = new LinkedList<>();
 
-	public Agent() {
-
+	public Agent(Filter f) {
+		filter = f;
 	}
 
 	@Override
@@ -36,18 +37,15 @@ public abstract class Agent implements IDrawable, ISensorOwner {
 	}
 
 	public void move(Action direction) {
-		if (direction == Action.UP) {
-			position.setLocation(position.getX(), position.getY() - v);
-		} else if (direction == Action.DOWN) {
-			position.setLocation(position.getX(), position.getY() + v);
-		} else if (direction == Action.LEFT) {
-			position.setLocation(position.getX() - v, position.getY());
-		} else if (direction == Action.RIGHT) {
-			position.setLocation(position.getX() + v, position.getY());
-		}
+		position.setLocation(position.getX() + direction.getCoords().getX()*v, position.getY() + direction.getCoords().getY()*v);
+		
+		filter.moveParticles(direction.getCoords().getX()*v, direction.getCoords().getY()*v);
+		
+		List<Double> sResult = new LinkedList<>();
 		for (Sensor s : sensors) {
 			s.updatePosition(position, 0);
-			s.sens();
+			sResult.add(s.sens());
 		}
+		filter.run(sResult);
 	}
 }

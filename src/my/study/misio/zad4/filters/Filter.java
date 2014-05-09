@@ -16,6 +16,10 @@ public abstract class Filter implements IDrawable, ISensorOwner {
 		this.env = env;
 	}
 
+	public void run(List<Double> robotSensorsResult){}
+	
+	public abstract void moveParticles(double x, double y);
+	
 	@Override
 	public void addSensor(Sensor sensor) {
 		sensors.add(sensor);
