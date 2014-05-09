@@ -31,6 +31,8 @@ public class Main {
 		//		final Agent agent = new BasicRobot(400, 400);
 
 		final EnvironmentCanvas canvas = new EnvironmentCanvas(env);
+		env.setCanvas(canvas);
+		
 		final Sensor s1 = new DistanceSensor(env, new Point2D.Double(400, 400),
 				new Point2D.Double(0, 400));
 		final Sensor s2 = new DistanceSensor(env, new Point2D.Double(400, 400),

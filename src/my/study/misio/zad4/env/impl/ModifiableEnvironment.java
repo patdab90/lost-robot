@@ -6,19 +6,23 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import my.study.misio.zad4.env.Environment;
+import my.study.misio.zad4.gui.EnvironmentCanvas;
 
 public class ModifiableEnvironment extends Environment implements MouseListener {
+
+	private EnvironmentCanvas canvas;
 
 	public ModifiableEnvironment() {
 		width = 900;
 		height = 900;
+		
 		this.creaeGraduation();
 	}
 
 	private Point2D clickStart = null;
 
-	public ModifiableEnvironment(int d) {
-		super(d);
+	public void setCanvas(EnvironmentCanvas canvas){
+		this.canvas = canvas;
 	}
 
 	@Override
@@ -43,6 +47,7 @@ public class ModifiableEnvironment extends Environment implements MouseListener 
 		if (clickStart != null) {
 			addObstacle(new Line2D.Double(clickStart, new Point2D.Double(
 					e.getX(), e.getY())));
+			canvas.repaint();
 		}
 	}
 
