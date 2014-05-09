@@ -5,13 +5,13 @@ package my.study.misio.zad4;
 
 import java.awt.geom.Point2D;
 
+import javax.swing.JFrame;
+
 import my.study.misio.zad4.agents.Agent;
 import my.study.misio.zad4.agents.BasicRobot;
 import my.study.misio.zad4.agents.DistanceSensor;
 import my.study.misio.zad4.agents.Sensor;
-import my.study.misio.zad4.env.Environment;
-import my.study.misio.zad4.env.impl.FileEnviroment;
-import my.study.misio.zad4.filters.Filter;
+import my.study.misio.zad4.env.impl.ModifiableEnvironment;
 import my.study.misio.zad4.filters.ParticipleFilter;
 import my.study.misio.zad4.gui.EnvironmentCanvas;
 import my.study.misio.zad4.gui.LostRobotWindow;
@@ -26,7 +26,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		final Environment env = new FileEnviroment("env1");
+		// final Environment env = new FileEnviroment("env1");
+		final ModifiableEnvironment env = new ModifiableEnvironment();
 		final Agent agent = new BasicRobot(400, 400);
 		final EnvironmentCanvas canvas = new EnvironmentCanvas(env);
 		final Sensor s1 = new DistanceSensor(env, new Point2D.Double(400, 400),
@@ -58,16 +59,18 @@ public class Main {
 		filter.addSensor(s6);
 		filter.addSensor(s7);
 		filter.addSensor(s8);
-		
-		//filter.test();
-		
+
+		// filter.test();
+
 		canvas.addDrawable(filter);
 		canvas.addDrawable(agent);
-		
+
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new LostRobotWindow(canvas, env, agent).setVisible(true);
+				JFrame f = new LostRobotWindow(canvas, env, agent);
+				f.setVisible(true);
+				f.addMouseListener(env);
 			}
 		});
 
