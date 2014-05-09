@@ -10,8 +10,8 @@ import my.study.misio.zad4.env.Environment;
 public class ModifiableEnvironment extends Environment implements MouseListener {
 
 	public ModifiableEnvironment() {
-		width = 1000;
-		height = 1000;
+		width = 900;
+		height = 900;
 		this.creaeGraduation();
 	}
 

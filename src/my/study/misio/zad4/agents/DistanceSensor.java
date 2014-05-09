@@ -48,7 +48,7 @@ public class DistanceSensor extends Sensor {
 
 	private double getSensorError() {
 		return (RandomSingleton.getInstance().nextInt(2) - 1)
-				* RandomSingleton.getInstance().nextGaussian() * 10;
+				* RandomSingleton.getInstance().nextGaussian() * 15;
 	}
 
 	@Override
