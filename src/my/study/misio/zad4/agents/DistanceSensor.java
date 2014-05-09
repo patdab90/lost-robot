@@ -89,9 +89,12 @@ public class DistanceSensor extends Sensor {
 					shape)) != null) {
 				// doliczamy b³ad
 				intersecPoint.setLocation(intersecPoint.getX()
-						+ (horizontal ? 0 : getSensorError()),
+						+  getSensorError(),
 						intersecPoint.getY()
-								+ (horizontal ? getSensorError() : 0));
+								+ getSensorError());
+//						+ (horizontal ? 0 : getSensorError()),
+//						intersecPoint.getY()
+//								+ (horizontal ? getSensorError() : 0));
 				double d = location.distance(intersecPoint);
 				minDistance = minDistance(minDistance, intersecPoint, d);
 			}
@@ -108,8 +111,10 @@ public class DistanceSensor extends Sensor {
 					continue;
 				// doliczanie b³edu
 				point2d.setLocation(point2d.getX()
-						+ (horizontal ? 0 : getSensorError()), point2d.getY()
-						+ (horizontal ? getSensorError() : 0));
+						+ getSensorError(), point2d.getY()
+						+  getSensorError() );
+//						+ (horizontal ? 0 : getSensorError()), point2d.getY()
+//						+ (horizontal ? getSensorError() : 0));
 				double d = location.distance(point2d);
 				minDistance = minDistance(minDistance, point2d, d);
 			}
