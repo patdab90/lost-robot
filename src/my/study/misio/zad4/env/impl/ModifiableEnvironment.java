@@ -15,14 +15,15 @@ public class ModifiableEnvironment extends Environment implements MouseListener 
 	public ModifiableEnvironment() {
 		width = 900;
 		height = 900;
-		
+
 		this.creaeGraduation();
 	}
 
 	private Point2D clickStart = null;
 
-	public void setCanvas(EnvironmentCanvas canvas){
+	public void setCanvas(EnvironmentCanvas canvas) {
 		this.canvas = canvas;
+		this.canvas.addMouseListener(this);
 	}
 
 	@Override
